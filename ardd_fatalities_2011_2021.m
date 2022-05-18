@@ -72,6 +72,41 @@ xlabel('Year');
 ylabel('Age');
 grid;
 
+%% Age and Year histogram
+
+%c = (find(a==1))
+
+data_age_year = data(:, {'Age','Year'});
+
+%    for i=1:length(data.("Age"))
+%        a = data.("Age"){i};
+%        if a == -9
+%            data.("Age"){i} = nan;
+%        end
+%    end
+
+data_age_year.("Age")(data_age_year.("Age") == -9) = nan;
+
+
+
+data2011 = data_age_year.("Age")(data_age_year.Year == 2011);
+data2021 = data_age_year.("Age")(data_age_year.Year == 2021);
+
+data2011 = sort(data2011);
+data2021 = sort(data2021);
+
+histogram(data2011);
+hold on 
+histogram(data2021);
+
+title("Deaths per Age 2011(blue) and 2021(orange)");
+ylabel("Death Count(per person)");
+xlabel("Ages");
+
+% data11 = findgroups(data2011);
+% num11 = splitapply(@sum, data2011,data11);
+
+
 %% regression Speed Limit and Age
 
 % Fit the data with a regression to a quadratic polynomial.
