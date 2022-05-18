@@ -58,3 +58,43 @@ xlabel("Year");
 pieGender = groupcounts(data.Gender);
 pieGender(3) = [];
 pie(pieGender, {'Female','Male'});
+
+%% regression Age and Year
+% Fit the data with a regression to a quadratic polynomial.
+t1 = polyfit(data.Year,data.Age,1);
+    
+% Compute the fitted model values.
+xfit  = polyval(t1,data.Year);
+
+
+plot(data.Year,data.Age,'r', data.Year,xfit,'b');
+xlabel('Year');
+ylabel('Age');
+grid;
+
+%% regression Speed Limit and Age
+
+% Fit the data with a regression to a quadratic polynomial.
+t1 = polyfit(data.("Speed Limit"),data.Age,1);
+    
+% Compute the fitted model values.
+xfit  = polyval(t1,data.("Speed Limit"));
+
+plot(data.("Speed Limit"),data.Age,'r.', data.("Speed Limit"),xfit,'b');
+
+xlabel('Speed Limit');
+ylabel('Age');
+grid;
+%% regression month and Speed Limit 
+
+% Fit the data with a regression to a quadratic polynomial.
+t1 = polyfit(data.Month,data.("Speed Limit"),1);
+    
+% Compute the fitted model values.
+xfit  = polyval(t1,data.Month);
+
+plot(data.Month,data.("Speed Limit"),'r.', data.Month,xfit,'b');
+
+xlabel('Month');
+ylabel('Speed Limit');
+grid;
