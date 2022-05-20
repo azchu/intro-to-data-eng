@@ -56,8 +56,80 @@ xlabel("Year");
 
 %% Pie chart for male vs female deaths
 pieGender = groupcounts(data.Gender);
+% Removing 'unknown' value
 pieGender(3) = [];
-pie(pieGender, {'Female','Male'});
+genderFPercent = pieGender(1)/sum(pieGender)*100;
+genderMPercent = pieGender(2)/sum(pieGender)*100;
+fString = "hi" + num2str(genderFPercent(1, 1));
+mString = num2str(genderMPercent(1, 1));
+pie(pieGender, {"Female: " + num2str(genderFPercent(1, 1)) + "%", "Male: " + num2str(genderMPercent(1, 1)) + "%"});
+
+%% Box plot for age
+boxplot(data.("Age"));
+title("Age Box Plot");
+ylabel("Age");
+
+%% Bar plot for speed limit
+[SpeedC,SpeedR] = groupcounts(data.("Speed Limit"));
+bar(SpeedR, SpeedC);
+title("Deaths at each speed limit");
+ylabel("Death Count (per person)");
+xlabel("Speed limit");
+
+%% Box plot for speed limit
+boxplot(data.("Speed Limit"));
+title("Speed Limit Box Plot");
+ylabel("Speed Limit");
+
+%% Bar plot for road user
+[RoadC,RoadR] = groupcounts(data.("Road User"));
+% Removing 'unknown/other' value
+RoadR(5) = [];
+RoadC(5) = [];
+bar(RoadC);
+title("Deaths for each road user");
+ylabel("Death Count (per person)");
+xlabel("Road user");
+set(gca, 'XTickLabel', RoadR)
+
+%% Deaths per month
+[monthC,monthR] = groupcounts(data.Month);
+c  = polyfit(monthR, monthC, 1);
+xfit = polyval(c, monthR);
+plot(monthR,monthC,'r--o', monthR, xfit,'b','MarkerFaceColor', 'r');
+title("Deaths per month");
+ylabel("Death Count (per person)");
+xlabel("Month");
+
+%% Day of the week bar chart
+[dayWC,dayWR] = groupcounts(data.Dayweek); 
+bar(groupcounts(data.Dayweek));
+title("Deaths vs day of the week");
+ylabel("Death Count");
+xlabel("Day of the week");
+set(gca, 'XTickLabel', dayWR);
+
+%% Time (24 hours) graph
+time24h = round(data.Time * 24);
+formattedTime = round(time24h);
+[timeC,timeR] = groupcounts(time24h);
+c  = polyfit(timeR, timeC, 1);
+xfit = polyval(c, timeR);
+plot(timeR,timeC,'r--o', timeR, xfit,'b','MarkerFaceColor', 'r');
+title("Deaths count vs time");
+ylabel("Death Count (per person)");
+xlabel("Time (24 hours)");
+
+%% Pie chart for night vs day
+pieDayTime = groupcounts(data.("Time of day"));
+nightPercent = pieDayTime(2)/sum(pieDayTime)*100;
+dayPercent = pieDayTime(1)/sum(pieDayTime)*100;
+p = pie(pieDayTime, {"Day: " + num2str(dayPercent(1, 1)) + "%", "Night: " + num2str(nightPercent(1, 1)) + "%"});
+title("Day vs night deaths");
+
+%% Count for holiday
+christmasData = groupcounts(data.("Christmas Period"));
+easterData = groupcounts(data.("Easter Period"));
 
 %% regression Age and Year
 % Fit the data with a regression to a quadratic polynomial.
